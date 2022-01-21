@@ -20,21 +20,21 @@ timezone: Asia/Shanghai
 
 title: 滔滔的博客                          # the main title
 
-tagline: ""   # it will display as the sub-title
+tagline: "Ctrl-C + Ctrl-V <br/>
+          Ctrl-Z + Ctrl-Y"   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  A minimal, portfolio, sidebar,
-  bootstrap Jekyll theme with responsive web design
-  and focuses on text presentation.
+  Linux, python, mysql, shell, sql,
+  ops, devops, 运维, 码农,vim
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: ''
+url: 'https://shojinto.github.io'
 
 github:
   username: shojinto             # change to your github username
 
-twitter:
-  username: ""            # change to your twitter username
+# twitter:
+#   username: ""            # change to your twitter username
 
 social:
   # Change to your full name.
