@@ -1,8 +1,8 @@
 ---
 title: Jekyll-Chirpy 搭建备忘
 date: 2022-01-21 13:23:32 +0800
-categories: [TOP_CATEGORIE, SUB_CATEGORIE]
-tags: [随笔]     # TAG names should always be lowercase
+categories: [博客搭建, 问题修复]
+tags: [博客]     # TAG names should always be lowercase
 author:
   name: ShoJinto
   link: https://shojinto.github.io
