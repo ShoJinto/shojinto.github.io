@@ -45,12 +45,42 @@ init() {
   _baseurl="$(grep '^baseurl:' _config.yml | sed "s/.*: *//;s/['\"]//g;s/#.*//")"
 }
 
+fix_assets_path() {
+  # 本地用typora编写的md文章引用本地图片文件，使用相对路径在本地正常，部署到GitHub pages上出现路径问题
+  # 此方法解决了这个问题
+  POSTS=`ls _posts`
+  for post in ${POSTS};
+  do
+    sed -i 's#../assets#/assets#g' "_posts/"${post}
+  done
+  
+  git config --global user.name "ShoJinto"
+  git config --global user.email "shojinto@github.com"
+
+  # commit changes
+  git add -A
+  git commit -m "fix assets abspath"
+  git push -f
+}
+
+reset_to_last_manual_submission() {
+  # 接`fix_assets_path`函数的注释，未达到远程和本地仓库一致。`github pages` 部署结束后还需要将机器人提交的修改回滚回来
+  git config --global user.name "ShoJinto"
+  git config --global user.email "shojinto@github.com"
+  git checkout main
+  git reset --hard HEAD^
+  git push -f
+}
+
 build() {
   # clean up
   if [[ -d $SITE_DIR ]]; then
     rm -rf "$SITE_DIR"
   fi
 
+  # fix abspath
+  fix_assets_path
+  
   # build
   JEKYLL_ENV=production bundle exec jekyll b -d "$SITE_DIR$_baseurl" --config "$_config"
 }
@@ -114,7 +144,11 @@ deploy() {
   else
     git push -f
   fi
+  
+  # rollback to last main commit
+  reset_to_last_manual_submission
 }
+
 
 main() {
   init
