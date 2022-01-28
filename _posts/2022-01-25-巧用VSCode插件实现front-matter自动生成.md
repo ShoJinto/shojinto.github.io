@@ -30,7 +30,7 @@ title: ${1:title}
 date: ${date} +0800
 categories: [${2:categories}]
 tags: [${3:tag}]
-author
+author:
   name: ShoJinto
   link: https://shojinto.github.io
 ---
