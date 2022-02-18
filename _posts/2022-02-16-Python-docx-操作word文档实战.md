@@ -35,11 +35,11 @@ pip install xlrd python-docxtpl
 
 Excel内容形如：
 
-![image-20220216140801797](../assets/img/articel-src/image-20220216140801797.png)
+![image-20220216140801797](/assets/img/articel-src/image-20220216140801797.png)
 
 使用`xlrd`读取excle中的内容，代码形如：
 
-![image-20220216141425332](../assets/img/articel-src/image-20220216141425332.png)
+![image-20220216141425332](/assets/img/articel-src/image-20220216141425332.png)
 
 
 往word文档中插入特殊字符
