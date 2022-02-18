@@ -81,19 +81,8 @@ doc.save('xxxx.docx')
 由于`DocxTemplate`不能直接读入去内存中的docx文档，因此插入特殊字符和从excel中更新信息两个步骤需要借助中间文档`xxxx.docx`进行，以及最终合同需要分三个情况生成，因此以上方式显得非常臃肿。那么有没有办法让代码更加干练呢？答案是肯定的。通过查阅资料以上步骤其实可以借助python-docxtpl模块的强大能来来实现，其实都是源于jinja2的模板语法。
 
 *以下是所有操作的基础*
-```python
-正常的Jinja 2语法只有%的普通标签，而docxtpl的类语法包含%p，%tr，%tc，%r
 
-%p：段落，即docx.text.paragraph.Paragraph对象
-
-%tr：表格中的一行，即docx.table._Row对象
-
-%tc：表格中的一列，即docx.table._Column对象
-
-%r：段落中的一个片段，即docx.text.run.Run对象
-
-通过使用这些标记，python-docx-template将真正的Jinja 2标记放入文档的XML源代码中的正确位置。
-```
+![image-20220218103014359](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\assets\img\articel-src\image-20220218103014359.png)
 
 代码实现：
 ```python
