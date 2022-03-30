@@ -103,3 +103,5 @@ theme: geek
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: 'git'
+  repo: git@github.com:ShoJinto/shojinto.github.io.git
+  branch: main
