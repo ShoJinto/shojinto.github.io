@@ -35,6 +35,7 @@ jobs:
           npm i -g hexo-cli hexo
           npm i -s hexo-deployer-git
           npm i
+          hexo version
       - name: Deploy hexo
         run: |
           hexo clean && hexo generate && hexo deploy
