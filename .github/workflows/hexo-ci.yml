@@ -24,8 +24,13 @@ jobs:
     - name: Install Dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: | 
-        npm -g install npm@6.8.0
+        if [ -e yarn.lock ]; then
+        yarn install --frozen-lockfile
+        elif [ -e package-lock.json ]; then
         npm ci
+        else
+        npm i
+        fi
     
     # Deploy hexo blog website.
     - name: Deploy
