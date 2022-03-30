@@ -33,6 +33,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm i -g hexo-cli
+          npm i -s hexo-deployer-git
           npm i
       - name: Deploy hexo
         run: |

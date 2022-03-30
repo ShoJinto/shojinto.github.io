@@ -104,4 +104,4 @@ theme: geek
 deploy:
   type: 'git'
   repo: git@github.com:ShoJinto/shojinto.github.io.git
-  branch: main
+  branch: gh-pages
