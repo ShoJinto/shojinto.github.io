@@ -14,4 +14,4 @@ order: 4
 
 
 
-<img src="../assets/img/favicons/android-chrome-512x512.png" alt="Avatar"  />
+![img](../images/android-chrome-512x512.png)

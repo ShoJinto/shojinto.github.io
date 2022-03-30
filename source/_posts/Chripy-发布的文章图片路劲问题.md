@@ -1,10 +1,22 @@
-# 我的个人博客
+---
+title: Chripy-发布的文章图片路劲问题
+date: 2022-01-22 15:23:32 +0800
+categories: [博客搭建, 问题修复]
+tags: [博客]     # TAG names should always be lowercase
+author:
+  name: ShoJinto
+  link: https://shojinto.github.io
+
+---
+
+
+# Chripy-发布的文章图片路劲问题
 
 本博客是采用`Jekyll+Chirpy` 搭建完成，其实就是fork自` Chirpy-starter`项目
 
 本地采用`typora`进行文章编写，`markdown`引用的本地图片在`github pages`上会出现路径问题，导致博客上的图片无法正常展示。
 
-为了解决这个问题，经过查阅资料，发现在只需要修改项目目录下的[`tools/deploy.sh`](tools/deploy.sh)就行。经过一番调试最终的部署脚本[见](tools/deploy.sh)。
+为了解决这个问题，经过查阅资料，发现在只需要修改项目目录下的`tools/deploy.sh`就行。经过一番调试最终的部署脚本[见]`tools/deploy.sh`。
 
 这里把思路说一下：
 

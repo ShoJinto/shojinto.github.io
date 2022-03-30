@@ -1,6 +1,6 @@
 ---
-title: 2022-02-16-Python-docx-操作word文档实战
-date: 2022-02-16 13:48:15 +0800
+title: Python-docx-操作word文档实战
+date: 2022-02-16 13:48:15
 categories: [办公自动化]
 tags: [运维]
 author: 
@@ -35,11 +35,11 @@ pip install xlrd python-docxtpl
 
 Excel内容形如：
 
-![image-20220216140801797](/assets/img/articel-src/image-20220216140801797.png)
+![image-20220216140801797](../images/image-20220216140801797.png)
 
 使用`xlrd`读取excle中的内容，代码形如：
 
-![image-20220216141425332](/assets/img/articel-src/image-20220216141425332.png)
+![image-20220216141425332](../images/image-20220216141425332.png)
 
 
 往word文档中插入特殊字符
@@ -82,7 +82,25 @@ doc.save('xxxx.docx')
 
 *以下是所有操作的基础*
 
-![image-20220218103014359](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\assets\img\articel-src\image-20220218103014359.png)
+```python
+正常的Jinja 2语法只有%的普通标签，而docxtpl的类语法包含%p，%tr，%tc，%r
+
+%p：段落，即docx.text.paragraph.Paragraph对象
+
+%tr：表格中的一行，即docx.table._Row对象
+
+%tc：表格中的一列，即docx.table._Column对象
+
+%r：段落中的一个片段，即docx.text.run.Run对象
+
+通过使用这些标记，python-docx-template将真正的Jinja 2标记放入文档的XML源代码中的正确位置。
+
+另外，需注意，这四种标签，起始标签不能在同一行，必须在不同的行上面。
+
+
+```
+
+
 
 代码实现：
 ```python

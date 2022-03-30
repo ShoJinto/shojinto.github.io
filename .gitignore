@@ -1,18 +1,11 @@
-# hidden files
-.*
-!.git*
-!.editorconfig
-!.nojekyll
-!.travis.yml
-
-# bundler cache
-_site
-vendor
-
-# rubygem
-*.gem
-*.lock
-
-# npm dependencies
-node_modules
+.DS_Store
+node_modules/
+db.json
+tmp/
+*.log
+.idea/
+yarn.lock
 package-lock.json
+.nyc_output/
+coverage/
+.tmp*

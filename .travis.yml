@@ -1,0 +1,18 @@
+sudo: false
+language: node_js
+node_js:
+  - 16 # use nodejs v16 LTS
+cache: npm
+branches:
+  only:
+    - master # build master branch only
+script:
+  - hexo generate # generate static files
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: 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
+  keep-history: true
+  on:
+    branch: master
+  local-dir: public
