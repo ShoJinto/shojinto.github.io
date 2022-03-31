@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        ShoJinto 滔滔
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            Redis 安装 - 超详细
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h1 id="Redis-安装-超详细"><a href="#Redis-安装-超详细" class="headerlink" title="Redis 安装 - 超详细"></a>Redis 安装 - 超详细</h1><p>作为一名运维软件的安装应该是信手拈来的。尤其是对于redis这样的软件，还是那句话自己忘性太好了。不废话，上操作步骤：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; wget https://download.redis.io/releases/redis-4.0.14.tar.gz</span><br><span class="line">&gt; tar xf redis-4.0.14.tar.gz</span><br><span class="line">&gt; <span class="built_in">cd</span> redis-4.0.14</span><br><span class="line">&gt; make </span><br></pre></td></tr></table></figure>
+
+<p>根据官网描述到这里已经安装结束了，但是对于运维怎么可能有没有启动脚本呢。<br>其实redis的源码中已经包含后续步骤的所有脚本，我们只需要执行即可。好！我们开始。。。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">ls</span> -l utils/</span><br><span class="line">total 52</span><br><span class="line">-rw-rw-r-- 1 root root  593 Mar 19  2019 build-static-symbols.tcl</span><br><span class="line">-rw-rw-r-- 1 root root 1303 Mar 19  2019 cluster_fail_time.tcl</span><br><span class="line">-rw-rw-r-- 1 root root 1070 Mar 19  2019 corrupt_rdb.c</span><br><span class="line">drwxrwxr-x 2 root root   60 Mar 19  2019 create-cluster</span><br><span class="line">-rwxrwxr-x 1 root root 2137 Mar 19  2019 generate-command-help.rb</span><br><span class="line">drwxrwxr-x 3 root root   31 Mar 19  2019 graphs</span><br><span class="line">drwxrwxr-x 2 root root   39 Mar 19  2019 hashtable</span><br><span class="line">drwxrwxr-x 2 root root   70 Mar 19  2019 hyperloglog</span><br><span class="line">-rwxrwxr-x 1 root root 9567 Mar 19  2019 install_server.sh</span><br><span class="line">drwxrwxr-x 2 root root   63 Mar 19  2019 lru</span><br><span class="line">-rw-rw-r-- 1 root root 1277 Mar 19  2019 redis-copy.rb</span><br><span class="line">-rwxrwxr-x 1 root root 1352 Mar 19  2019 redis_init_script</span><br><span class="line">-rwxrwxr-x 1 root root 1047 Mar 19  2019 redis_init_script.tpl</span><br><span class="line">-rw-rw-r-- 1 root root 1762 Mar 19  2019 redis-sha1.rb</span><br><span class="line">drwxrwxr-x 2 root root  135 Mar 19  2019 releasetools</span><br><span class="line">-rwxrwxr-x 1 root root 3787 Mar 19  2019 speed-regression.tcl</span><br><span class="line">-rwxrwxr-x 1 root root  693 Mar 19  2019 whatisdoing.sh</span><br></pre></td></tr></table></figure>
+
+<p>看名字就知道这些脚本是干啥用的，这里安装standard-land模式，直接进行如下操作即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&gt; find src -perm 755 -<span class="built_in">exec</span> <span class="built_in">cp</span> <span class="string">&quot;&#123;&#125;&quot;</span> /usr/local/sbin/ \;</span><br><span class="line">&gt; utils/install_server.sh</span><br><span class="line">Welcome to the redis service installer</span><br><span class="line">This script will <span class="built_in">help</span> you easily <span class="built_in">set</span> up a running redis server</span><br><span class="line"></span><br><span class="line">Please select the redis port <span class="keyword">for</span> this instance: [6379] [Enter键]</span><br><span class="line">Selecting default: 6379</span><br><span class="line">Please select the redis config file name [/etc/redis/6379.conf] [Enter键]</span><br><span class="line">Selected default - /etc/redis/6379.conf</span><br><span class="line">Please select the redis <span class="built_in">log</span> file name [/var/log/redis_6379.<span class="built_in">log</span>] [Enter键]</span><br><span class="line">Selected default - /var/log/redis_6379.<span class="built_in">log</span></span><br><span class="line">Please select the data directory <span class="keyword">for</span> this instance [/var/lib/redis/6379] [Enter键]</span><br><span class="line">Selected default - /var/lib/redis/6379</span><br><span class="line">Please select the redis executable path [/usr/local/sbin/redis-server] [Enter键]</span><br><span class="line">Selected config:</span><br><span class="line">Port           : 6379</span><br><span class="line">Config file    : /etc/redis/6379.conf</span><br><span class="line">Log file       : /var/log/redis_6379.<span class="built_in">log</span></span><br><span class="line">Data <span class="built_in">dir</span>       : /var/lib/redis/6379</span><br><span class="line">Executable     : /usr/local/sbin/redis-server</span><br><span class="line">Cli Executable : /usr/local/sbin/redis-cli</span><br><span class="line">Is this ok? Then press ENTER to go on or Ctrl-C to abort</span><br></pre></td></tr></table></figure>
+
+<p>支持已经安装完成了，并且redis服务已经启动</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt; </span><span class="language-bash">/etc/init.d/redis_6379 status</span></span><br><span class="line">Redis is running (10511)</span><br></pre></td></tr></table></figure>
+
+<p>到这里就结束了哇。。我不！都2022了怎么可能没有systemd？于是继续。。。</p>
+<p>去github上找一份system的模板，最好是redis的systemd模板。根据实际情况进行修改，最终的修改结果如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">cat</span> /usr/lib/systemd/system/redis.service</span><br><span class="line">Description=Redis In-Memory Data Store</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=redis</span><br><span class="line">Group=redis</span><br><span class="line">Environment=statedir=/run/redis</span><br><span class="line">PermissionsStartOnly=<span class="literal">true</span></span><br><span class="line">PIDFile=/run/redis/redis.pid</span><br><span class="line">ExecStartPre=/bin/touch /var/log/redis.log</span><br><span class="line">ExecStartPre=/bin/chown redis:redis /var/log/redis.log</span><br><span class="line">ExecStartPre=/bin/mkdir -p <span class="variable">$&#123;statedir&#125;</span></span><br><span class="line">ExecStartPre=/bin/chown -R redis:redis <span class="variable">$&#123;statedir&#125;</span></span><br><span class="line">ExecStart=/usr/local/sbin/redis-server /etc/redis/redis.conf</span><br><span class="line">ExecStop=/bin/kill <span class="variable">$MAINPID</span></span><br><span class="line">ExecReload=/bin/kill -USR2 <span class="variable">$MAINPID</span></span><br><span class="line">Restart=always</span><br><span class="line">RestartSec=3</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>对<code>install_sercver.sh</code>脚本生成的配置信息进行修正，使其与<code>systemd</code>配置文件中的配置项相符</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">ln</span> -sf /etc/redis/6379.conf /etc/redis/redis.conf</span><br><span class="line">&gt; sed -i <span class="string">&#x27;s/redis_6379/redis/g&#x27;</span> /etc/redis/redis.conf</span><br><span class="line">&gt; sed -i <span class="string">&#x27;s/\(bind \)127.0.0.1/\10.0.0.0/g&#x27;</span> /etc/redis/redis.conf</span><br><span class="line">&gt; sed -i <span class="string">&#x27;s#\(daemonize \)yes#\1no#g&#x27;</span> /etc/redis/redis.conf</span><br><span class="line">&gt; sed -n <span class="string">&#x27;/redis_6379/p&#x27;</span> /etc/redis/redis.conf</span><br><span class="line">pidfile /var/run/redis_6379.pid</span><br><span class="line">logfile /var/log/redis_6379.<span class="built_in">log</span></span><br><span class="line">&gt;  sed -i <span class="string">&#x27;s/\(redis\)_6379/\1/g&#x27;</span> /etc/redis/redis.conf</span><br><span class="line">&gt; adduser -s /usr/sbin/nologin -d /var/lib/redis -r redis</span><br><span class="line">&gt; chow redis.redis -R /var/lib/redis </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>重新以systemd启动redis</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&gt; pkill -9 redis-server</span><br><span class="line">&gt; systemctl daemon-reload</span><br><span class="line">&gt; systemctl start redis</span><br><span class="line">&gt; systemctl status redis</span><br><span class="line">● redis.service</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/redis.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: active (running) since Wed 2022-01-26 11:14:33 CST; 7s ago</span><br><span class="line">  Process: 16587 ExecStop=/bin/kill <span class="variable">$MAINPID</span> (code=exited, status=0/SUCCESS)</span><br><span class="line">  Process: 16599 ExecStartPre=/bin/chown -R redis:redis <span class="variable">$&#123;statedir&#125;</span> (code=exited, status=0/SUCCESS)</span><br><span class="line">  Process: 16595 ExecStartPre=/bin/mkdir -p <span class="variable">$&#123;statedir&#125;</span> (code=exited, status=0/SUCCESS)</span><br><span class="line">  Process: 16592 ExecStartPre=/bin/chown redis:redis /var/log/redis.log (code=exited, status=0/SUCCESS)</span><br><span class="line">  Process: 16590 ExecStartPre=/bin/touch /var/log/redis.log (code=exited, status=0/SUCCESS)</span><br><span class="line"> Main PID: 16602 (redis-server)</span><br><span class="line">    Tasks: 4</span><br><span class="line">   Memory: 976.0K</span><br><span class="line">   CGroup: /system.slice/redis.service</span><br><span class="line">           └─16602 /usr/local/sbin/redis-server 0.0.0.0:6379</span><br><span class="line"></span><br><span class="line">Jan 26 11:14:33 apollo-yapi-210 systemd[1]: Starting redis.service...</span><br><span class="line">Jan 26 11:14:33 apollo-yapi-210 systemd[1]: Started redis.service.</span><br></pre></td></tr></table></figure>
+
+<p>至此redis按照完成。</p>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>

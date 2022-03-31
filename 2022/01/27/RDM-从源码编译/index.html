@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        ShoJinto 滔滔
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            RDM 从源码编译
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h1 id="RDM-从源码编译"><a href="#RDM-从源码编译" class="headerlink" title="RDM 从源码编译"></a>RDM 从源码编译</h1><p>Redis Desktop Manager -&gt; <strong>RDM</strong> 一个超赞的<code>redis</code>开源客户端管理工具。感谢项目的作者<a target="_blank" rel="noopener" href="https://github.com/uglide/RedisDesktopManager"><code>@uglide</code></a>，一个软件从源码到编译也不是一件容易的事情。所以有条件且嫌麻烦的朋友可以直接去官网购买<a target="_blank" rel="noopener" href="https://resp.app/pricing">https://resp.app/pricing</a>。</p>
+<h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>根据官文<a target="_blank" rel="noopener" href="http://docs.redisdesktop.com/en/latest/install/#build-from-source">Build from source</a>准备所需依赖</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019 Community Edition</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.qt.io/download">Qt 5.15.x</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.python.org/">Python3.9+</a></li>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/downloads">Git</a></li>
+<li>Windows 10 x64</li>
+<li><a target="_blank" rel="noopener" href="https://cmake.org/download/">cmake</a> 、<a target="_blank" rel="noopener" href="http://www.equation.com/servlet/equation.cmd?fa=make">make</a> 、<a target="_blank" rel="noopener" href="https://www.nuget.org/downloads">nuget</a></li>
+</ul>
+<p>接下来对上面的提到的依赖进行逐一破解。</p>
+<p>本着先易后难的原则<code>VS2019</code>、<code>git</code>、<code>python39</code>这三个软件都是常用软件不做过多介绍，需要说明的安装<code>VS2019</code>的时候必须现在<code>C++</code>载荷因为<strong>RDM</strong>使用<code>C++</code>开发的。</p>
+<p>分别去<a target="_blank" rel="noopener" href="https://cmake.org/download/"><code>https://cmake.org/download/</code></a>、<a target="_blank" rel="noopener" href="http://www.equation.com/servlet/equation.cmd?fa=make"><code>http://www.equation.com/servlet/equation.cmd?fa=make</code></a>、<a target="_blank" rel="noopener" href="https://www.nuget.org/downloads"><code>https://www.nuget.org/downloads</code></a>这三个地方把<code>cmake</code>、<code>make</code>和<code>nuget</code>下载到本地并添加到系统环境变量中,追加到<code>%path%</code>上，在找make for windows 命令的时候发现这篇关于<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/149305469">windows上make和cmake命令的集成</a>说的比较好。</p>
+<p><img src="/../images/image-20220127234804448.png" alt="image-20220127234804448"></p>
+<p>接下来就是按照官网<a target="_blank" rel="noopener" href="http://docs.redisdesktop.com/en/latest/install/#build-from-source">在windows上编译</a>小节<code>step by step</code>。在这期间自己犯了一个非常严重且愚蠢的错误，在上面起码耗费了4个小时甚至还跑到RDM的GitHub上提交<a target="_blank" rel="noopener" href="https://github.com/uglide/RedisDesktopManager/issues/5184">issue</a>。究竟怎么回事儿请继续往下看！！！</p>
+<h3 id="编译lz4"><a href="#编译lz4" class="headerlink" title="编译lz4"></a>编译lz4</h3><p>根据官网说明进行操作，需要注意的时候Windows上执行make命令会报错：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/WorkSpace/rdm/3rdparty/lz4/build/cmake $ make</span><br><span class="line">make: *** No targets specified and no makefile found.  Stop.</span><br></pre></td></tr></table></figure>
+
+<p>解决办法是：直接用VS2019进行编译。</p>
+<p>编译过<em>程极度舒适</em>进入<code>lz4/build/cmake</code>目录双击<code>LZ4.sln</code>解决方案文件默认用VS2019打开。按照如下截图操作<img src="/../images/image-20220128005609606.png" alt="image-20220128005609606"></p>
+<p>等待编译完成即可。</p>
+<h3 id="使用Qt-Creator-构建rdm项目"><a href="#使用Qt-Creator-构建rdm项目" class="headerlink" title="使用Qt Creator 构建rdm项目"></a>使用Qt Creator 构建rdm项目</h3><p>由于Qt从5.15开始不提供离线安装包，在GFW内无疑是阻碍了丝滑度。所以我这边一股脑儿的想要找到5.15的离线按照包。找来找去对本次编译唯一有用的是发现了这个<a target="_blank" rel="noopener" href="http://dts.digitser.cn/zh-CN/download/qt/qt5.html#Qt5">网站</a>如果要学习Qt她绝对是国内不二的选择，根据上面的介绍如果要得到5.15的离线安装包就需要自行编译，这个的编译成本非常之高。究竟有多高，看看在你这里就知道了[<a target="_blank" rel="noopener" href="http://wiki.digitser.cn/zh-CN/qt/compile5.15.html#">在 Windows 10 编译 Qt 5.15 源代码的详细过程 步骤详解</a>]。哇哇哇哇~~~~ 这么多依赖，关键是对于一个不进行Qt开发的人来说这么一次编译成本未免也太大了。果断选择其他方式。也许是快过年了头脑以己经开始了休假模式，一不留神把<img src="/../images/image-20220128001412487.png" alt="img">看成了<img src="/../images/image-20220128001840194.png" alt="img"></p>
+<p>心想不是说不开放离线按照包么，怎么被我找到了呢。这就是我在RDM的GitHub上<a target="_blank" rel="noopener" href="https://github.com/uglide/RedisDesktopManager/issues/5184">issue</a>的开端。具体问题欢迎<a target="_blank" rel="noopener" href="https://github.com/uglide/RedisDesktopManager/issues/5184">强势围观</a>。</p>
+<p>心情开始烦闷了。。。。。正好午饭时间到，去食堂解决一下口腹之欲再说。</p>
+<p>午休间隙突然发现，明明官文上说的是<em>Qt5.15</em>我这里怎么是<strong>Qt5.14.2</strong>，这不是自己搞错了么还跑去提<em>issue</em>丢人丢到家了。怎么搞呢，<code>5.15</code>没有离线安装，哎~~~ 为了把RDM编译成功我也是拼了。哈哈哈~ ~ ~ 拿出我珍藏多年的梯(dai)子(li)去Qt官网的<a target="_blank" rel="noopener" href="https://download.qt.io/archive/qt/5.14/5.14.0/"><code>5.15</code>下载站点</a>将在线安装包下载下来进行安装。</p>
+<p>安装的时候按照如下截图选择主键即可：</p>
+<p><img src="/../images/image-20220128004402035.png" alt="image-20220128004402035"></p>
+<p>等待安装完成即可。</p>
+<h4 id="修改项目文件以符合实际情况"><a href="#修改项目文件以符合实际情况" class="headerlink" title="修改项目文件以符合实际情况"></a>修改项目文件以符合实际情况</h4><p><img src="/../images/image-20220128010402803.png" alt="image-20220128010633957"></p>
+<p>被注释掉代码是原有的，需要修改成实际python的地址。</p>
+<h3 id="更新语言"><a href="#更新语言" class="headerlink" title="更新语言"></a>更新语言</h3><p>如果不做此操作编译后的程序默认是英文的</p>
+<p><img src="/../images/image-20220128164608048.png" alt="image-20220128164608048"></p>
+<p><strong>Run build. (Just hit <code>Ctrl-B</code>)</strong></p>
+<h3 id="解决其他依赖"><a href="#解决其他依赖" class="headerlink" title="解决其他依赖"></a>解决其他依赖</h3><p>观察<code>Qt Creator</code>的信息输出窗口没有出现之前的</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">E:\WorkSpace\rdm\src\app\models\connectionsmanager.cpp:133: error: C2027: 使用了未定义类型“QUuid”</span><br><span class="line">E:\WorkSpace\rdm\3rdparty\qredisclient\src\qredisclient\connectionconfig.h:120: error: C2027: 使用了未定义类型“QSet&lt;T&gt;”</span><br><span class="line">with</span><br><span class="line">[</span><br><span class="line">    T=QString</span><br><span class="line">]</span><br><span class="line">E:\WorkSpace\rdm\src\app\models\connectionsmanager.cpp:133: error: C3861: “createUuid”: 找不到标识符</span><br><span class="line"></span><br><span class="line">E:\WorkSpace\rdm\src\app\models\connectionsmanager.cpp:133: error: C2027: 使用了未定义类型“QUuid”</span><br></pre></td></tr></table></figure>
+
+<p>类似报错了，心想总算进入了实质性的编译阶段了。但是。。。。。</p>
+<p><img src="/../images/image-20220128160641398.png" alt="image-20220128160641398"></p>
+<p>根据错误提示定位到第三方模块<code>snappy</code>经过一番查找发现只有<code>snappy-stubs-public.h.in</code>文件，我不懂C&#x2F;C++抱着试一试的想法把这个模块编译一下。查看其<code>README.md</code>与编译相关信息可以得知该模块是如何编译的：</p>
+<p><img src="/../images/image-20220128161314580.png" alt="image-20220128161314580"></p>
+<p>因为是在Windows平台所以这里仅仅执行到<code>cmake</code>就需要切换到<code>VS2019</code>上进行最后的的<code>make</code>操作。在这过程中在<code>build</code>目录下发现了所需要的<code>snappy-stubs-public.h</code>文件。省去make步骤直接把它拷贝到<code>snappy.h</code>同级目录。再在<code>Qt Creator</code>中执行Build操作。但是。。。还是但是。。。。</p>
+<p><img src="/../images/image-20220128011300968.png" alt="image-20220128011300968"></p>
+<p>明明之前都把python的绝对路径写死在代码里面了，这会儿怎么又冒出这个python相关的问题，看错误信息</p>
+<pre><code>## Fatal Python error on Windows 10 ModuleNotFoundError: No module named &#39;encodings&#39;
+</code></pre>
+<p>用<code>ipython</code>测试一下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ipython</span></span><br><span class="line">Python 3.9.7 (tags/v3.9.7:1016ef3, Aug 30 2021, 20:19:38) [MSC v.1929 64 bit (AMD64)]</span><br><span class="line">Type &#x27;copyright&#x27;, &#x27;credits&#x27; or &#x27;license&#x27; for more information</span><br><span class="line">IPython 7.30.1 -- An enhanced Interactive Python. Type &#x27;?&#x27; for help.</span><br><span class="line"></span><br><span class="line">In [1]: import encodings</span><br><span class="line"></span><br><span class="line">In [2]:</span><br></pre></td></tr></table></figure>
+
+<p>没有问题呀！怎么回事儿。好！是时候请出Google大神了</p>
+<p>找到了一篇文章<a target="_blank" rel="noopener" href="https://www.codenong.com/42512817/">Windows 10上的致命Python错误ModuleNotFoundError：没有名为’encodings’的模块</a>根据文章的说明新建两个环境变量<code>PYTHONHOME=E:\program\python39</code>和<code>PYTOHNPATH=E:\program\python39\Scripts</code>然后重启<code>Qt Creator</code>让配置的新环境变量生效。然后继续编译，好事多磨，这次编译又报出<img src="/../images/image-20220128012502642.png" alt="image-20220128012502642"></p>
+<p>好在问题越来越具体和清洗了，<strong>根据报错信息定位到<code>3rdparty</code>模块的对应目录，找到他的<code>README.md</code>文件查看该库是如何编译以及使用的</strong>。依据其README.md，项目已经在<code>zstd/build/cmake/</code>中提供了<code>cmake</code>的项目生成器，可以生成<code>Makefile</code>或者编译脚本。那么直接转到该目录下执行<code>cmake</code>命令即可生成编译脚本，然后使用VS2019编译出对应的生成物，然后将生成物拷贝的依赖提示的位置接下来的错误均是按照此操作进行</p>
+<p><img src="/../images/image-20220128013028710.png" alt="image-20220128013028710"></p>
+<p>此处还有一个报错，不像前面的报错可以清洗的知道属于哪个第三方模块所在的目录<img src="/../images/image-20220128013317738.png" alt="image-20220128013317738"></p>
+<p>这么办呢，好在我这里收藏的神器比较多，铛铛铛铛铛~~~~&#96;everything&#96;<img src="/../images/image-20220128013638288.png" alt="image-20220128013638288"></p>
+<p>咿~~~~ 这货是个 <code>java</code> ，翻看其<code>README.md</code>果然不同寻常，难道我还要去搞个<code>mvn</code>来编译这货。。。。结果让我失望了，他提供了<code>cmake</code>编译方式：<img src="/../images/image-20220128014137121.png" alt="image-20220128014137121"></p>
+<p>通过<code>cmake</code>也能编译。好吧，执行上面的命令，进行编译，编译完成将<code>out/Release</code>目录拷贝的插件的根目录下也就是<code>README.md</code>同级目录。</p>
+<h3 id="编译成功"><a href="#编译成功" class="headerlink" title="编译成功"></a>编译成功</h3><p>千呼万唤始出来。。。</p>
+<p><img src="/../images/image-20220128014652491.png" alt="image-20220128014652491"></p>
+<h3 id="软打包"><a href="#软打包" class="headerlink" title="软打包"></a>软打包</h3><p>到<code>rdm\bin\windows\release</code>去执行一下<code>rdm.exe</code>看看效果。┭┮﹏┭┮ 呜呜~~~~ 不带这么玩儿的呀！！</p>
+<p><img src="/../images/image-20220128015227879.png" alt="image-20220128015227879"></p>
+<p>在<code>Qt Creator</code>里面RUN一下呢，这又能跑起来。好奇怪。<img src="/../images/image-20220128015512864.png" alt="image-20220128015512864"></p>
+<p>查了一下，这是因为<code>Qt Creator</code>编译好的exe程序是没有关联依赖库的，需要使用<code>windeployqt</code>这个工具将依赖库部署过来。也就是说编译成功只是倒数第二步或者第三步。</p>
+<h3 id="windeployqt对rdm-exe进行部署"><a href="#windeployqt对rdm-exe进行部署" class="headerlink" title="windeployqt对rdm.exe进行部署"></a><code>windeployqt</code>对rdm.exe进行部署</h3><p>将编译好的<code>rdm.exe</code>拷贝到<code>rdm/build/windows/installer/resources</code>目录中，并在此目录中编写<code>assemble.bat</code>文件。</p>
+<p>文件内容如下:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">:: 执行依赖库引入</span><br><span class="line">:: 注意: 命令中的windeployqt是一个exe程序, </span><br><span class="line">:: 该程序的目录需要按实际Qt的安装位置修改, </span><br><span class="line">:: \src\qml目录也是按源码解压时所在位置的绝对路径修改</span><br><span class="line"><span class="built_in">set</span> windeployqt=E:\Qt\<span class="number">5.15</span>.<span class="number">2</span>\msvc2019_64\bin\windeployqt.exe</span><br><span class="line"><span class="built_in">set</span> src_path=E:\WorkSpace\rdm\src</span><br><span class="line">%windeployqt% <span class="literal">--no-angle</span> <span class="literal">--no-opengl-sw</span> <span class="literal">--no-compiler-runtime</span> <span class="literal">--no-translations</span> <span class="literal">--release</span> <span class="literal">--force</span> <span class="literal">--qmldir</span> %src_path%\qml rdm.exe</span><br><span class="line">:: 删除一些不必要的文件</span><br><span class="line"><span class="built_in">rmdir</span> /S /Q .\qmltooling</span><br><span class="line"><span class="built_in">rmdir</span> /S /Q .\QtGraphicalEffects</span><br><span class="line"><span class="built_in">del</span> /Q  .\imageformats\qtiff.dll</span><br><span class="line"><span class="built_in">del</span> /Q  .\imageformats\qwebp.dll</span><br><span class="line"><span class="built_in">echo</span> Assemble complate! Press every key <span class="keyword">exit</span>.</span><br><span class="line">pause &gt; nul</span><br></pre></td></tr></table></figure>
+
+<p>现在双击<code>rdm/build/windows/installer/resources/rdm.exe</code>能正常运行了</p>
+<p><img src="/../images/image-20220128021252933.png" alt="image-20220128021252933"></p>
+<h3 id="处理软件分发"><a href="#处理软件分发" class="headerlink" title="处理软件分发"></a>处理软件分发</h3><p>到现在位置软件已经<code>RDM</code>算是编译完成并且可以在本机中分发了，为什么说是本机呢？因为程序运行运行所需的python.dll和python.zip依赖包旨在本机中存在，如果分发找其他其上一定会报错缺少<code>python.dll</code>而无法运行。因此需要将这两个依赖从<a target="_blank" rel="noopener" href="https://www.python.org/ftp/python/3.9.7/python-3.9.7-embed-amd64.zip">[python-embed]</a>包中复制到<code>rdm/build/windows/installer/resources/</code>中（<code>python-embed</code>是pytohn的一种机制提供了C&#x2F;C++调用python代码进行交互）。这样分发到其他机器上就可以正常使用了。但是点击右上角的【日志】按钮出现如下信息，感觉似乎哪个依赖包不正确。<img src="/../images/image-20220128090942876.png" alt="image-20220128090942876"></p>
+<p>经查原因如下：</p>
+<pre><code>这是对redis的value值进行解析的扩展没有找到, 比如显示为二进制, msgpack等, 默认已经自带文本, json, 十六进制。添加对应的处理依赖包
+</code></pre>
+<p>只需要将<code>rdm/src/py/formatters/</code>所有<code>.py</code>文件拷贝到<code>rdm/build/windows/installer/resources/formatters</code>目录下就想了。即在<code>git-bash</code>执行：</p>
+<p><code>cp -rv rdm/src/py/formatters/*.py rdm/build/windows/installer/resources/formatters/</code> </p>
+<p>为了节省空间可以在<code>formatters</code>目录中执行如下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rdm/build/windows/installer/resources/formatters/ $ python -m compileall -b .</span><br><span class="line">rdm/build/windows/installer/resources/formatters/ $ rm -rf *.py</span><br></pre></td></tr></table></figure>
+
+<p>至此，一个绿色版的<code>rdm</code>就生成了。为了方便可以执行如下命令进行打包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">rdm/build/windows/installer/resources $ 7z a -tzip -mx9 resp-noinstaller-2022.zip * -r</span><br><span class="line">7-Zip [32] 15.12 : Copyright (c) 1999-2015 Igor Pavlov : 2015-11-19</span><br><span class="line"></span><br><span class="line">Scanning the drive:</span><br><span class="line">42 folders, 736 files, 60113121 bytes (58 MiB)</span><br><span class="line"></span><br><span class="line">Creating archive: rdm-2021.zip</span><br><span class="line"></span><br><span class="line">Items to compress: 778</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Files read from disk: 736</span><br><span class="line">Archive size: 24479939 bytes (24 MiB)</span><br><span class="line">Everything is Ok</span><br></pre></td></tr></table></figure>
+
+<h3 id="制作安装包"><a href="#制作安装包" class="headerlink" title="制作安装包"></a>制作安装包</h3><p>根据我自己的使用习惯做出<code>noinstaller</code>就可以了。但是rdm项目的作者很用心居然提供了<code>NSI</code>脚本，那我就来试一下将rdm制作成安装包。</p>
+<p>首先需要下载<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/nsis/files/NSIS%203/3.08/nsis-3.08.zip/download"><code>nsis</code></a>这个软件，它是制作软件安装包的工具，目前版本是<em>v3.08</em>同样我也是下载的<code>noInstaller</code>版本。运行<code>NSIS.exe</code></p>
+<p><img src="/../images/image-20220128100350201.png" alt="image-20220128100350201"></p>
+<p>我们有<code>NSI</code>脚本因此选择这个</p>
+<p><img src="/../images/image-20220128100623377.png" alt="image-20220128100623377"></p>
+<p>对<code>installer.nsi</code>脚本进行修改</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rdm/build/windows/installer $ sed -i &#x27;/^Name &quot;RDM&quot;/a\# version\n!define VERSION &quot;2021.10.0&quot;&#x27; installer.nsi # branch 2021</span><br><span class="line">rdm/build/windows/installer $ sed -i &#x27;/^Name &quot;RESP/a\# version\n!define VERSION &quot;2022.1.0&quot;&#x27; installer.nsi # branch 2022</span><br></pre></td></tr></table></figure>
+
+<p>请注意此处<code>VERSION</code>必须定义写成’x.x.x’这样的格式。不然<code>NSIN</code>在打包过程中就会报错：</p>
+<pre><code>Processed 1 file, writing output (x86-unicode):
+Adding plug-ins initializing function... Done!
+Error: invalid VIProductVersion format, should be X.X.X.X
+Error - aborting creation process
+</code></pre>
+<p>通过两种打包方式可以看出<code>NSIN</code>的压缩比例明显占优，就看各自喜好。我个人喜欢<code>noinstaller</code></p>
+<p><img src="/../images/image-20220128104026274.png" alt="image-20220128104220735"></p>
+<p>编译好的<a target="_blank" rel="noopener" href="https://github.com/ShoJinto/shojinto.github.io/releases/tag/rdm">rdm下载</a>，另外文章中的截图由于使用<code>2021</code>和<code>2022</code>两个分支的代码进行过编译，因此截图看着有点儿混乱，不过对编译总体流程没有影响。</p>
+<h3 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h3><p><a target="_blank" rel="noopener" href="https://github.com/uglide/RedisDesktopManager">RDM作者</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/aileitianshi/article/details/107920808">Redis Desktop Manager 2020.2 Windows 源码编译</a>幸亏此参考</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/ZxqSoftWare/article/details/104993372">Visual C++ Redistributable for Visual Studio各版本的官方链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/82747325">Windows10+QT5.9+VS2017编译并打包RedisDesktopManager</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cxyzjd.com/article/n447194252/107932227">源码编译Redis Desktop Manager参考</a></p>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>

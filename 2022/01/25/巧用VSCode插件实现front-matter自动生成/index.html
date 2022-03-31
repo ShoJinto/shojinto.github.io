@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        ShoJinto 滔滔
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            巧用VSCode实现front-matter自动生成
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h1 id="巧用VSCode实现front-matter自动生成"><a href="#巧用VSCode实现front-matter自动生成" class="headerlink" title="巧用VSCode实现front-matter自动生成"></a>巧用VSCode实现front-matter自动生成</h1><p>接<code>博客搭建备忘</code>Jekyll将<code>.md</code>文件转换成静态页面需要依赖<code>Front-matter</code>信息来对整个博客进行组织。至于什么是<code>Front-matter</code>可以Google查下，这里就不搬运了。</p>
+<p>由于每写片文件就需要编辑<code>Front-matter</code>，里面的诸如<code>date</code>,<code>author</code>,<code>link</code>等信息都是固定且需要根据实际情况进行动态更新。有没有方法自动生成这些内容呢？一开始就想到有没有类似于<code>PyCharm</code>中新建代码文件的时候自定义的模板文件。于是Google了一番还真有，只是不是<code>Typora</code>的而是<code>VSCode</code>有个<code>file template</code>插件，可以实现。同时这个插件还默认内置了：</p>
+<ul>
+<li>JavaScript</li>
+<li>HTML</li>
+<li>CSS</li>
+<li>PHP</li>
+<li>Python</li>
+<li>Ruby</li>
+<li>XML</li>
+<li>Vue</li>
+</ul>
+<p>虽然没有内置<code>markdown</code>的支持，不过没关系它支持自己定义模板，只需要在<code>~/.vscode/extensions/ralfzhang.filetemplate-2.0.4/asset/templates</code>目录下新建一个<code>.tmpl</code>文件即可。文件内容仿照目录里面其他文件的内容填写即可。我这边<code>markdown</code>的模板文件内容如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">$&#123;1:title&#125;</span></span><br><span class="line"><span class="attr">date:</span> <span class="string">$&#123;date&#125;</span> <span class="string">+0800</span></span><br><span class="line"><span class="attr">categories:</span> [<span class="string">$</span>&#123;<span class="number">2</span><span class="string">:categories</span>&#125;]</span><br><span class="line"><span class="attr">tags:</span> [<span class="string">$</span>&#123;<span class="number">3</span><span class="string">:tag</span>&#125;]</span><br><span class="line"><span class="attr">author:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">ShoJinto</span></span><br><span class="line">  <span class="attr">link:</span> <span class="string">https://shojinto.github.io</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">$0</span></span><br></pre></td></tr></table></figure>
+<p>大概解释一下变量的意思：<code>$&#123;1:title&#125;</code>导入模板之后光标定位的第一个位置，其中<code>1</code>表示按<code>Tab</code>键的时候光标的切换顺序。</p>
+<h3 id="设置模板快捷键"><a href="#设置模板快捷键" class="headerlink" title="设置模板快捷键"></a>设置模板快捷键</h3><p>我这里设置成<code>Alt+M</code></p>
+<h3 id="操作步骤："><a href="#操作步骤：" class="headerlink" title="操作步骤："></a>操作步骤：</h3><ul>
+<li>在<code>VSCode</code>中<code>Ctrl+N</code>新建文件</li>
+<li><code>Ctrl+K M</code>选择文件类型为<code>markdown</code></li>
+<li><code>Alt+M</code>导入模板信息并修改需要修改的内容</li>
+<li>撰写文章内容</li>
+</ul>
+<h3 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h3><p>感谢插件的制作者：<a target="_blank" rel="noopener" href="https://github.com/RalfZhang/File-Template">https://github.com/RalfZhang/File-Template</a></p>
+<h3 id="今后markdown的编写工具切换到VSCode上咯！！"><a href="#今后markdown的编写工具切换到VSCode上咯！！" class="headerlink" title="今后markdown的编写工具切换到VSCode上咯！！"></a>今后markdown的编写工具切换到VSCode上咯！！</h3>
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>
