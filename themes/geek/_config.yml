@@ -20,3 +20,8 @@ valine:
 
 highlight:
   enable: false
+  
+# Analytics
+baidu_analytics: 
+  enable: true
+  appId: 72885fc2764dfa73d0ab5176af60d0d1
