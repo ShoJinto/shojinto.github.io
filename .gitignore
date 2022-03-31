@@ -1,11 +1,8 @@
 .DS_Store
-node_modules/
+Thumbs.db
 db.json
-tmp/
 *.log
-.idea/
-yarn.lock
-package-lock.json
-.nyc_output/
-coverage/
-.tmp*
+node_modules/
+public/
+.deploy*/
+_multiconfig.yml
