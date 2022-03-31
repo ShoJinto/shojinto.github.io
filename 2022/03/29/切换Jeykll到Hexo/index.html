@@ -33,6 +33,14 @@
 <p>这两天打算将公司内部的知识库也通过静态网页的方式进行共享，由于之前Jekyll的坑所以这次选择了hexo作为生成引擎。发现Hexo确实比Jekyll要简单太多了，文档中文友好。简直不要太香！</p>
 <p>贴一个Hexo的官方链接：<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">https://hexo.io/zh-cn/docs</a></p>
 <p>这次选择的主题是hexo官方主题市场中的<a target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek"><code>GEEK</code></a>做了一些自定义修改，就这样上线吧！！！</p>
+<p>在<code>Github Action</code>的过程中还自己给自己挖了一个坑：主题是直接从github上clone的，导致<code>git add</code>的时候自动识别成了<code>submodule</code>我的本意是不去让主题作为git的子项目，所以把主题里面的<code>.git</code>目录手动给删除了。这就导致<code>Action</code>的时候无法获取主题的代码从而导致生成的静态文件<code>html</code>全部为空文件。Google搜索 <code>hexo html 0kb</code>得到的答案都是：</p>
+<p><img src="/../images/image-20220331093236636.png" alt="image-20220331093236636"></p>
+<p>一开始最开始以为知道到了问题，但是我的这个问题不是node版本的所导致。尝试了好几次，查询到Hexo的官方英文文档<a target="_blank" rel="noopener" href="https://hexo.io/docs/github-pages">github-pages</a>也没有关于这些的说法，也不像中文文档关于github-pages是通过<a target="_blank" rel="noopener" href="https://travis-ci.com/">Travis CI</a>完成，或者使用 <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000040767893">hexo配合github action 自动构建（多种形式）</a> 的方式。英文版本直接上用的<code>GitHub Action</code>既然Hexo官方有如此丝滑的解决方案那就果断采用之。但是CI后html文档内容为空的问题仍然没有解决。无意中发现GitHub远程仓库中的<code>themes/geeok</code>目录为空，一下子恍然大悟：<em>主题内容为空当然会导致生成的结果为空！</em></p>
+<p>至此问题原因找到，接下来就是进行如下操作，让主题内容被git跟踪执行如下命令即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git rm --cache themes/geek  # 清除git对themes的缓存设置</span><br><span class="line">git add themes # 重新添加git跟踪</span><br></pre></td></tr></table></figure>
+
+<p>这里是关于<code>submodule</code>问题的决绝方法：<a target="_blank" rel="noopener" href="https://smileusd.github.io/2018/03/21/git-submodule-problem/">git出现fatal: Pathspec ‘xxx’ is in submodule ‘xxx’的解决方法</a></p>
+<p>最后push最新的变动到github仓库，<code>Github Action</code>就自动发布了。</p>
 
     </div>
 
