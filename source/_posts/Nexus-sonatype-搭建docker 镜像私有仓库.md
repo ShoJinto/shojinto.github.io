@@ -1,3 +1,14 @@
+---
+title: Nexus-sonatype-搭建docker 镜像私有仓库
+date: 2022-07-07 15:23:32 +0800
+categories: [Nexus-sonatype,dockers private repostory, 搭建]
+tags: [博客]     # TAG names should always be lowercase
+author:
+  name: ShoJinto
+  link: https://shojinto.github.io
+
+---
+
 # Nexus-sonatype-搭建docker 镜像私有仓库
 
 公司网络隔离策略变动导致之前搭建的docker hub不能直接访问。为了解决环境中存在的这一问题，决定在环境中搭建docker私有仓库。对比harbor和nexus3后决定采用nexus3。采用nexus3的主要原因是用于安装镜像仓库的服务器资源非常的low之后1个core和2g memory。
