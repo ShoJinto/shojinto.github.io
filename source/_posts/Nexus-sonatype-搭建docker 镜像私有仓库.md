@@ -49,7 +49,7 @@ tree -L 3 /data/app/nexus/
 
 
 
-![image-20220727164033222](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20220727164033222.png)
+![image-20220727164033222](../images/image-20220727164033222.png)
 
 调整了nexus的内存参数之后为了以防物理内存不够用，接下来还需要调整启用swap，不然这条小机器就宕机了。详细调整说明请移步：https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-centos-7
 
@@ -72,23 +72,23 @@ nexus安装部分结束！！！
 
 首先需要激活nexus的docker beaer token realm
 
-![image-20220727170852426](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20220727170852426.png)
+![image-20220727170852426](../images/image-20220727170852426.png)
 
 配置docker镜像仓库的用户角色
 
-![image-20220727172015737](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20220727172015737.png)
+![image-20220727172015737](../images/image-20220727172015737.png)
 
 新建用户并分配角色
 
-![image-20220727172140649](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20220727172140649.png)
+![image-20220727172140649](../images/image-20220727172140649.png)
 
 新建docker hosted仓库，左侧菜单：Repostory -$ Repostories -$ Create repostory
 
-![image-20220727171150448](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20220727171150448.png)
+![image-20220727171150448](../images/image-20220727171150448.png)
 
 这里选择hosted，建立本地私有仓库
 
-![image-20220727171431032](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20220727171431032.png)
+![image-20220727171431032](../images/image-20220727171431032.png)
 
 至此镜像仓库配置完毕
 
