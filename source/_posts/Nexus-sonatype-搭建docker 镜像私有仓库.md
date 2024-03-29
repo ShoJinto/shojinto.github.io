@@ -36,7 +36,7 @@ https://help.sonatype.com/repomanager3/product-information/download
 nexus目录结构：
 
 ```shell
-tree -L 3 /data/app/nexus/
+$ tree -L 3 /data/app/nexus/
 /data/app/nexus/
 ├── nexus-3.40.1-01
 │   ├── bin
@@ -71,8 +71,8 @@ $ dd if=/dev/zero of=/swapfile count=4096 bs=1024k # 创建swap文件
 $ mkswap /swapfile # 格式化swap文件
 $ swapon /swapfile # 开启swap
 $ swapon -s
-$ blkid /swapfile  |awk -F'"' '{print "UUID="$2" "$4" "$4" sw 0 0 "}' $$ /etc/fstab # swap分区开机自加载
-$ cat "vm.swappiness = 10 \n#vm.vfs_cache_pressure = 50" $$ /etc/sysctl.conf # 调整swap分区使用参数，因为机器配置确实太low调整一下swap参数，让服务器可能好过一点儿。。。
+$ blkid /swapfile  |awk -F'"' '{print "UUID="$2" "$4" "$4" sw 0 0 "}' >> /etc/fstab # swap分区开机自加载
+$ cat "vm.swappiness = 10 \n#vm.vfs_cache_pressure = 50" >> /etc/sysctl.conf # 调整swap分区使用参数，因为机器配置确实太low调整一下swap参数，让服务器可能好过一点儿。。。
 ```
 
 nexus安装部分结束！！！
