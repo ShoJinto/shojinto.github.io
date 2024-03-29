@@ -27,7 +27,7 @@ k8s默认只支持http协议转发，最近公司有个项目是基于TCP协议�
 kubectl -n ingress-nginx edit daemonsets.apps nginx-ingress-controller
 ```
 
-![image-20240329094149050](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329094149050.png)
+![image-20240329094149050](../images/image-20240329094149050.png)
 
 如果没有上图标记的配置则需要自行加上！！好在rancher默认已经有这两个配置项，我们只需要确认一下即可。
 
@@ -56,7 +56,7 @@ EOF
 kubectl -n ingress-nginx edit cm tcp-services
 ```
 
-![image-20240329094915224](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329094915224.png)
+![image-20240329094915224](../images/image-20240329094915224.png)
 
 - 暴露端口
 
@@ -64,7 +64,7 @@ kubectl -n ingress-nginx edit cm tcp-services
 kubectl -n ingress-nginx edit daemonsets.apps nginx-ingress-controller
 ```
 
-![image-20240329100339809](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329100339809.png)
+![image-20240329100339809](../images/image-20240329100339809.png)
 
 - 设置流量转发规则
 
@@ -72,7 +72,7 @@ kubectl -n ingress-nginx edit daemonsets.apps nginx-ingress-controller
 kubectl -n ingress-nginx edit service ingress-nginx-controller-admission
 ```
 
-![image-20240329100637253](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329100637253.png)
+![image-20240329100637253](../images/image-20240329100637253.png)
 
 经过以上操作等待`ingress-nginx-controller` 配置完成既可以通过集群内的任意宿主机IP地址就可以访问`5195`端口了！
 
@@ -84,14 +84,14 @@ kubectl -n ingress-nginx edit service ingress-nginx-controller-admission
 
 - 确认是否开启tcp、udp支持
 
-![image-20240329101201327](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329101201327.png)
+![image-20240329101201327](../images/image-20240329101201327.png)
 
 - 配置端口暴露
 
-![image-20240329102005557](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329102005557.png)
+![image-20240329102005557](../images/image-20240329102005557.png)
 
 - 配置流量转发
 
-![image-20240329101621080](D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329101621080.png)
+![image-20240329101621080](../images/image-20240329101621080.png)
 
 图像界面的操作也搞定！
