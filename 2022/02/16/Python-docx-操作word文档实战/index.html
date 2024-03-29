@@ -28,7 +28,7 @@
 	})();
 	</script>
 
-<meta name="generator" content="Hexo 6.2.0"></head>
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 <body id="bodyx">
     <div class="hd posts">
@@ -72,6 +72,15 @@
 
 <p>代码实现：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">doctmp = DocxTemplate(<span class="string">&#x27;123.docx&#x27;</span>)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">根据业务情况，word模板中的jinja2语法如下：</span></span><br><span class="line"><span class="string">&#123;%r if right_mark %&#125; &#123;&#123; right_mark &#125;&#125;&#123;%r endif %&#125;&#123;% if not right_mark %&#125; □&#123;% endif %&#125;</span></span><br><span class="line"><span class="string">参考：</span></span><br><span class="line"><span class="string">https://www.cnblogs.com/feifeifeisir/p/14701066.html</span></span><br><span class="line"><span class="string">https://docxtpl.readthedocs.io/en/latest/#jinja2-like-syntax</span></span><br><span class="line"><span class="string">因为合同分为主副两份，根据情况最终生成的合同会有如下情况：</span></span><br><span class="line"><span class="string">    1. 主副</span></span><br><span class="line"><span class="string">    2. 主</span></span><br><span class="line"><span class="string">    3. 副</span></span><br><span class="line"><span class="string">因此，合同模板大致结构如：</span></span><br><span class="line"><span class="string">    &#123;% if main %&#125; </span></span><br><span class="line"><span class="string">    主合同内容</span></span><br><span class="line"><span class="string">    &#123;% endif %&#125;</span></span><br><span class="line"><span class="string">    &#123;% if secondary %&#125; </span></span><br><span class="line"><span class="string">    副合同内容 </span></span><br><span class="line"><span class="string">    &#123;% endif %&#125;</span></span><br><span class="line"><span class="string">要如何生成合同内容只需要传递相应的内容给合同模板即可</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">context = &#123;</span><br><span class="line">    <span class="string">&quot;main&quot;</span>: <span class="literal">True</span>,</span><br><span class="line">    <span class="string">&quot;secondary&quot;</span>: <span class="literal">False</span>,</span><br><span class="line">    <span class="string">&quot;right_mark&quot;</span>: <span class="string">&#x27;&lt;w:sym w:font=&quot;Wingdings 2&quot; w:char=&quot;F052&quot;/&gt;&#x27;</span>, <span class="comment"># word中的“对号”，利用 docxtpl中的 &#123;%r 专属标签实现</span></span><br><span class="line">&#125;</span><br><span class="line">doctmp.render(context)</span><br><span class="line">doctmp.save(<span class="string">&quot;a123.docx&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;done.&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
 
     </div>
 

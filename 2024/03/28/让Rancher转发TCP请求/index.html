@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        ShoJinto 滔滔
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+	
+	<script>
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "https://hm.baidu.com/hm.js?72885fc2764dfa73d0ab5176af60d0d1";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	</script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            让Rancher支持上的k8s支持TCP转发
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h1 id="让Rancher支持上的k8s支持TCP转发"><a href="#让Rancher支持上的k8s支持TCP转发" class="headerlink" title="让Rancher支持上的k8s支持TCP转发"></a>让Rancher支持上的k8s支持TCP转发</h1><p>k8s默认只支持http协议转发，最近公司有个项目是基于TCP协议的，为了上其在k8s上顺利的对外提供服务因此这里需要对k8s进行一些设置。</p>
+<p>网上找到一些理论介绍：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/liugp/p/16972366.html">https://www.cnblogs.com/liugp/p/16972366.html</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://lokie.wang/article/126">https://lokie.wang/article/126</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/rancher/rancher/issues/14744">https://github.com/rancher/rancher/issues/14744</a></p>
+</li>
+</ul>
+<p>由于我这里是采用rancher部署的k8s所以文章中提到的一些操作不太一样，但是理论知识都在上面了。具体操作如下：</p>
+<ul>
+<li>查看ingress-nginx-controller是否开启了 <code>tcp-server</code>和<code>udp-server</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n ingress-nginx edit daemonsets.apps nginx-ingress-controller</span><br></pre></td></tr></table></figure>
+
+<p><img src="D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329094149050.png" alt="image-20240329094149050"></p>
+<p>如果没有上图标记的配置则需要自行加上！！好在rancher默认已经有这两个配置项，我们只需要确认一下即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- --tcp-services-configmap=$(POD_NAMESPACE)/tcp-services</span><br><span class="line">- --udp-services-configmap=$(POD_NAMESPACE)/udp-services</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义configmap</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成yaml文件，由于我这里是用Deployment进行的项目管理，所有实际上这个tcp-services.yaml文件会被嵌入到Deployment.yml文件中去。</span></span><br><span class="line">cat &gt;tcp-services.yaml&lt;&lt;EOF</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: ConfigMap</span><br><span class="line">metadata:</span><br><span class="line">  name: tcp-services</span><br><span class="line">  namespace: ingress-nginx</span><br><span class="line">data:</span><br><span class="line">  5195: &quot;tfxing-test/tfxing-socket:5195&quot;</span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">格式为&lt;ingress-controller-svc-port&gt;:<span class="string">&quot;&lt;namespace&gt;/&lt;service-name&gt;:&lt;port&gt;&quot;</span>。</span></span><br><span class="line"><span class="meta prompt_">  # </span><span class="language-bash">配置的意思是tfxing-test命名空间下的5195端口映射到ingress-controller service的5195端口，即可通过ingress-controller的service ip加5195端口访问到实际的服务</span></span><br><span class="line">EOF</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看集群中的内容</span></span><br><span class="line">kubectl -n ingress-nginx edit cm tcp-services</span><br></pre></td></tr></table></figure>
+
+<p><img src="D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329094915224.png" alt="image-20240329094915224"></p>
+<ul>
+<li>暴露端口</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n ingress-nginx edit daemonsets.apps nginx-ingress-controller</span><br></pre></td></tr></table></figure>
+
+<p><img src="D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329100339809.png" alt="image-20240329100339809"></p>
+<ul>
+<li>设置流量转发规则</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n ingress-nginx edit service ingress-nginx-controller-admission</span><br></pre></td></tr></table></figure>
+
+<p><img src="D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329100637253.png" alt="image-20240329100637253"></p>
+<p>经过以上操作等待<code>ingress-nginx-controller</code> 配置完成既可以通过集群内的任意宿主机IP地址就可以访问<code>5195</code>端口了！</p>
+<p>上面的配置如果是纯K8S操作的话还是比较繁琐负载的，稍不注意可能会导致整个集群出问题。好在我们是用rancher对k8s进行管理，所以以上操作都可以在图像界面中完成。</p>
+<hr>
+<p>接下来将以截图的形式进行展示：</p>
+<ul>
+<li>确认是否开启tcp、udp支持</li>
+</ul>
+<p><img src="D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329101201327.png" alt="image-20240329101201327"></p>
+<ul>
+<li>配置端口暴露</li>
+</ul>
+<p><img src="D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329102005557.png" alt="image-20240329102005557"></p>
+<ul>
+<li>配置流量转发</li>
+</ul>
+<p><img src="D:\Users\ShoJinto\Documents\GitHub\shojinto.github.io\source\images\image-20240329101621080.png" alt="image-20240329101621080"></p>
+<p>图像界面的操作也搞定！</p>
+
+    </div>
+
+    
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="sBc8tGpQjtwbggV9gG8iVW1b-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="95egYUoH984IghLnWsu0eyA6">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>
